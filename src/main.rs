@@ -1,6 +1,5 @@
 mod blockchain;
 
 fn main() {
-    println!("Hello from main!");
-    blockchain::print_block_info();
+    blockchain::genesis::print_genesis_block();
 }
