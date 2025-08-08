@@ -41,6 +41,7 @@ fn main() -> std::io::Result<()> {
     blockchain.print_chain();
 
     println!("Welcome to {} ({})", config::COIN_NAME, config::COIN_SYMBOL);
+    println!("Default Ports: P2P - {}, RPC - {}", config::P2P_DEFAULT_PORT, config::RPC_DEFAULT_PORT);
 
     Ok(())
 }
