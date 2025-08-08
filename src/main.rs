@@ -1,8 +1,9 @@
+mod config;
 mod blockchain;
 mod daemon;
 
 fn main() -> std::io::Result<()> {
-    let path = "blockchain.dat";
+    let path = config::BLOCKS_FILENAME;
 
     let mut blockchain = match blockchain::chain::Blockchain::load_from_file(path) {
         Ok(chain) => chain,
@@ -38,6 +39,8 @@ fn main() -> std::io::Result<()> {
 
     blockchain.append_block(path, &new_block)?;
     blockchain.print_chain();
+
+    println!("Welcome to {} ({})", config::COIN_NAME, config::COIN_SYMBOL);
 
     Ok(())
 }
