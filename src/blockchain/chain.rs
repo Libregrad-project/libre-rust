@@ -27,6 +27,8 @@ impl Blockchain {
         // Write block bytes
         file.write_all(&encoded)?;
 
+        file.flush()?; // <--- flush to disk immediately
+
         self.chain.push(block.clone());
 
         Ok(())
@@ -41,20 +43,36 @@ impl Blockchain {
         loop {
             let mut len_buf = [0u8; 8];
             // Try read length prefix (8 bytes)
-            if let Err(_) = reader.read_exact(&mut len_buf) {
-                break; // EOF reached or error, stop reading
+            match reader.read_exact(&mut len_buf) {
+                Ok(()) => {},
+                Err(ref e) if e.kind() == std::io::ErrorKind::UnexpectedEof => break, // EOF reached, normal exit
+                Err(e) => return Err(e), // Other errors return
             }
+
             let length = u64::from_le_bytes(len_buf);
 
             let mut block_buf = vec![0u8; length as usize];
-            reader.read_exact(&mut block_buf)?;
 
-            let block: Block = bincode::deserialize(&block_buf).unwrap();
+            match reader.read_exact(&mut block_buf) {
+                Ok(()) => {},
+                Err(ref e) if e.kind() == std::io::ErrorKind::UnexpectedEof => {
+                    // Incomplete block data, treat as EOF and break gracefully
+                    break;
+                }
+                Err(e) => return Err(e), // Other errors return
+            }
+
+            let block: Block = match bincode::deserialize(&block_buf) {
+                Ok(b) => b,
+                Err(_) => break, // Corrupted block data - stop loading further
+            };
+
             chain.push(block);
         }
 
         Ok(Blockchain { chain })
     }
+
 
     pub fn print_chain(&self) {
         for block in &self.chain {
