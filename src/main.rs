@@ -22,4 +22,20 @@ fn main() {
     };
     blockchain.add_block(new_block);
     blockchain.print_chain();
+
+    // Save the blockchain to a file
+    if let Err(e) = blockchain.save_to_file("blockchain.dat") {
+        eprintln!("Error saving blockchain: {}", e);
+    }
+
+    let loaded_blockchain = match blockchain::chain::Blockchain::load_from_file("blockchain.dat") {
+        Ok(chain) => chain,
+        Err(e) => {
+            eprintln!("Error loading blockchain: {}", e);
+            return;
+        }
+    };
+
+  
+
 }

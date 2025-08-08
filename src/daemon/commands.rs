@@ -1,6 +1,6 @@
 use clap::{Subcommand, Parser};
 
-/// Main CLI parser struct (can also live here or in mod.rs)
+/// Main CLI parser struct.
 #[derive(Parser)]
 #[command(author, version, about = "CryptoNote Daemon CLI Test")]
 pub struct Cli {
