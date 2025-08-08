@@ -11,7 +11,7 @@ pub struct Block {
 }
 
 impl Block {
-    // Compute hash of the block's content excluding the `hash` field
+    
     pub fn compute_hash(&self) -> [u8; 32] {
         #[derive(Serialize)]
         struct BlockData<'a> {
