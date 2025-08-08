@@ -31,7 +31,7 @@ fn main() -> std::io::Result<()> {
 
     let new_block = blockchain::block::Block {
         height: last_block.height + 1,
-        hash: [1u8; 32], // Replace with real hash when ready
+        hash: [1u8; 32], 
         timestamp: 1680000001,
         prev_hash: last_block.hash,
         // transactions: vec![],
