@@ -12,3 +12,4 @@ curve25519-dalek = "4"  # For elliptic curve ops (used in CryptoNote)
 thiserror = "1.0"       # For error handling
 log = "0.4"
 env_logger = "0.9"
+clap = { version = "4.1", features = ["derive"] }
