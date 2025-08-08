@@ -1,12 +1,8 @@
-// mod blockchain;
-
-// fn main() {
-//     blockchain::genesis::print_genesis_block();
-// }
-
 mod blockchain;
 mod daemon;
 
 fn main() {
+    // Print Gensis block info
+    blockchain::genesis::print_genesis_block();
     daemon::run();
 }
